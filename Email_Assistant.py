@@ -59,15 +59,14 @@ def sort_emails_by_priority(mail, unread_messages):
             if msg_part.get_content_type() == "text/plain":
                 message["Body"] = msg_part.get_payload(decode=False)
                 body = message["body"]
-    sender_with_name = message['From']
-    sender = re.search(r"<(.+)>",sender_with_name).group(1)
-    subject = message['Subject']
-    if sender in important:
-        emails.append({'sender': sender, 'subject': subject, 'body': body})
-    elif subject:
-        if "urgent" in subject.lower():
+        sender_with_name = message['From']
+        sender = re.search(r"<(.+)>",sender_with_name).group(1)
+        subject = message['Subject']
+        if sender in important:
             emails.append({'sender': sender, 'subject': subject, 'body': body})
-        
+        if subject:
+            if "urgent" in subject.lower():
+                 emails.append({'sender': sender, 'subject': subject, 'body': body})
     return emails
 
 #coverting text to voice message
